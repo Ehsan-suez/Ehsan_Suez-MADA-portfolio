@@ -26,7 +26,7 @@ As someone from a non-coding background, I am on a learning curve where I have s
 * Managing database (not sure if R can be used for this purpose)    
 * Learning how to play with datasets   
 
-# **Interesting Fact:**  
+# **Interesting Fact:**   
   
 My parents and family live in Bangladesh. The time difference between here and Bangladesh is exactly **12 hours**. So, when it's 6 pm here, it's 6 am there.  
 
