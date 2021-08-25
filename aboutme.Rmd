@@ -1,5 +1,5 @@
 ---
-```{r, echo=FALSE, out.width='25%', fig.align='center'}
+```{r, echo=FALSE, out.width='50%', fig.align='center'}
 knitr::include_graphics ('image.jpeg')   
 ```   
 
