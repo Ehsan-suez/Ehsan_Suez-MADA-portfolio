@@ -1,5 +1,5 @@
 ---
-! [abc] (/image.jpeg)   
+! [abc] (/Users/ehsansuez/Study /MADA_2021/Ehsan_Suez-MADA-portfolio/image.jpeg)   
 
 # **Background:** 
 
