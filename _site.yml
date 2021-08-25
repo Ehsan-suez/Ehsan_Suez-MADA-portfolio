@@ -2,7 +2,7 @@ name: "My Data Analysis Portfolio"
 output_dir: 'docs'
 output:
   html_document:
-    theme: cosmo
+    theme: yeti
     highlight: zenburn
     toc: false
 navbar:
@@ -21,4 +21,4 @@ navbar:
           href: ./tidytuesday.html
   right:
     - icon: fa-github fa-lg
-      href: URL-TO-THIS-REPOSITORY-HERE        
+      href: https://github.com/Ehsan-suez/Ehsan_Suez-MADA-portfolio       

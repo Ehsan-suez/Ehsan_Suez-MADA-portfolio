@@ -1,10 +1,33 @@
 ---
-title: "About me"
-output: 
-  html_document:
-    toc: FALSE
----
 
 
-Add some text and a figure describing myself.
+# **Background:** 
+
+I am Ehsan. I completed by BS in Biotechnology from Jahangirnagar University, Bangladesh. Then I came to the US and completed my MS in Biology from Missouri State University. My thesis works was completely experimental as it involved protein purification and subsequent interaction assay. I wanted to continue protein study, but using computaional/biinformatical approaches. And to fulfil that, I came to UGA and started my PhD in Bioinformatics last spring.
+
+# **Current Research Interest:**
+
+As the COVID happened, my research focus shifted to infectious disease. So currently, I study the transmission dynamics of infectious disease (zoonotic Tb) using bioinformatical approaches.
+
+I have completed:   
+1. _Data structure course_ (with **JAVA**),   
+2. _Statistical Inference for Life Science_ (with **R**, but only a few tasks were assigned throughout the course).   
+
+Currently I am taking:    
+1. _Algorithm_ course (with **JAVA**), and  
+2. _MADA_ course (with **R**).   
+
+As someone from a non-coding background, I am on a learning curve where I have started to learn coding but still a long way to go to say "Ehsan is a coder"!
+
+# **Course Objectives:**
+
+* Becoming proficient in analyses using R   
+* Building data visualization skills    
+* Managing database (not sure if R can be used for this purpose)    
+* Learning how to play with datasets   
+
+# **Interesting Fact:**
+
+My parents and family live in Bangladesh. The time difference between here and Bangladesh is exactly **12 hours**. So, when it's 6 pm here, it's 6 am there.
+
 
