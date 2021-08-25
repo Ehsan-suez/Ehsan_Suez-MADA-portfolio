@@ -2,6 +2,9 @@
 ```{r, echo=FALSE, out.width='50%', fig.align='center'}
 knitr::include_graphics ('image.jpeg')   
 ```   
+```{r}
+
+```
 
 # **Background:** 
 
