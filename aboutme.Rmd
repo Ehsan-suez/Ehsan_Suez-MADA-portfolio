@@ -1,5 +1,7 @@
 ---
-! [abc] (/Users/ehsansuez/Study /MADA_2021/Ehsan_Suez-MADA-portfolio/image.jpeg)   
+```{r, echo=FALSE, out.width='25%', fig.align='center'}
+knitr::include_graphics ('image.jpeg')   
+```   
 
 # **Background:** 
 
