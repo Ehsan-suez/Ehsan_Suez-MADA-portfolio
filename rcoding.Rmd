@@ -4,7 +4,70 @@ output:
   html_document:
     toc: FALSE
 ---
+```{r}
+#load dslabs package
+library("dslabs")
+library("ggplot2")
+```
 
-This will contain the future R coding exercise.
+```{r}
+#look at help file for gapminder data
+help(gapminder)
+#get an overview of data structure
+str(gapminder)
+#get a summary of data
+summary(gapminder)
+#determine the type of object gapminder is
+class(gapminder)
+```
+```{r}
+#create new object selecting only African countries
+africadata <-  gapminder[which(gapminder$continent=='Africa'), ]
+#overview of the new data structure
+str(africadata)
+summary(africadata)
+```
 
+```{r}
+#making two variable from new dataset
+inmor_liexp <- africadata[c("infant_mortality","life_expectancy")]
+pop_liexp <- africadata[c("population","life_expectancy")]
+#overview and summary of both
+str(inmor_liexp)
+str(pop_liexp)
+summary(inmor_liexp)
+summary(pop_liexp)
+```
 
+```{r}
+#plotting life expectancy as a function of infant mortality [have to install ggplot2 first]
+ggplot(inmor_liexp, aes(x= infant_mortality, y = life_expectancy)) +
+  geom_point()
+#plot life expectancy as a function of population size with x-axis to a log scale
+ggplot(pop_liexp, aes(x= population, y=life_expectancy)) +
+  geom_point()  +
+  scale_x_continuous(trans='log2')
+```
+```{r}
+#finding which years have missing data for infant mortality [using is.na function]
+africadata$year[is.na(africadata$infant_mortality)]
+#creating object with only 2000 year data
+africadata2 <-africadata[africadata$year == 2000,]
+#checking with str and summary
+str(africadata2)
+summary(africadata2)
+#same plotting like before but only with year 2000 data
+ggplot(africadata2, aes(x= infant_mortality, y = life_expectancy)) +
+     geom_point()
+ggplot(africadata2, aes(x= population, y=life_expectancy)) + 
+     geom_point() + 
+     scale_x_continuous(trans='log2')
+```
+```{r}
+#fitting two linear regression models by regressing life expectancy on infant mortality and population size separately
+fit1 <- lm(life_expectancy ~ infant_mortality, data = africadata2)
+summary(fit1)
+fit2 <- lm(life_expectancy ~ population, data = africadata2)
+summary(fit2)
+```
+#fit1 has a significant p-value  indicates correlation between Infant Mortality and Life Expectancy
