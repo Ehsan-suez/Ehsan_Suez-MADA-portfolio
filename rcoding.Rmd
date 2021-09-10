@@ -8,6 +8,8 @@ output:
 #load dslabs package
 library("dslabs")
 library("ggplot2")
+library("dplyr")
+library("broom")
 ```
 
 ```{r}
@@ -71,3 +73,86 @@ fit2 <- lm(life_expectancy ~ population, data = africadata2)
 summary(fit2)
 ```
 #fit1 has a significant p-value  indicates correlation between Infant Mortality and Life Expectancy
+
+<br>
+
+# Are any other variables signififcant predictors of life expectancy?
+
+<br>
+
+## First consider fertility 
+```{r}
+#still using data from the year 2000 for countries in Africa
+#first consider fertility
+#make a subset of data including fertility and life expectancy
+africa_f_le <- africadata2 %>%
+  select(fertility, life_expectancy)
+
+#overview of fertility data structure
+str(africa_f_le)
+
+#summary of fertility data
+summary(africa_f_le)
+
+#to center the plot title
+theme_update(plot.title = element_text(hjust = 0.5))
+
+#plot life expectancy as a function of fertility
+ggplot(data = africa_f_le, aes(x = fertility, y = life_expectancy)) +
+  geom_point() +
+  scale_size_manual(values = 2) +
+  ggtitle("Life expectancy as a function of fertility") +
+  labs(x = "Fertility", y = "Life Expectancy")
+
+#create a linear model
+fit3 <- lm(life_expectancy ~ fertility, data = africa_f_le)
+tidy(fit3)
+
+#plot of linear model
+ggplot(africa_f_le, aes(x = fertility, y = life_expectancy)) + 
+  geom_point() +
+  stat_smooth(method = "lm", col = "red") +
+  ggtitle("Life expectancy as a function of fertility with lm fit") +
+  labs(x = "Fertility", y = "Life Expectancy")
+```
+<br>
+
+## Conclusion: Fertility is a significant predictor of life expectancy in African countries in the year 2000 (t = -6.113, p < 0.001).
+
+<br>
+
+## Now consider GDP
+```{r}
+#make a subset of data including GDP and life expectancy
+africa_gdp_le <- africadata2 %>%
+  select(gdp, life_expectancy)
+
+#overview of GDP data structure
+str(africa_gdp_le)
+
+#summary of GDP data
+summary(africa_gdp_le)
+
+#plot life expectancy as a function of GDP (on a log scale)
+ggplot(data = africa_gdp_le, aes(x = gdp, y = life_expectancy)) +
+  geom_point() +
+  scale_size_manual(values = 2) +
+  scale_x_continuous(trans='log2') +
+  ggtitle("Life expectancy as a function of GDP") +
+  labs(x = "log(GDP)", y = "Life Expectancy")
+
+#create a linear model
+fit4 <- lm(life_expectancy ~ gdp, data = africa_gdp_le)
+tidy(fit4)
+
+#plot of lm fit
+ggplot(africa_gdp_le, aes(x = gdp, y = life_expectancy)) + 
+  geom_point() +
+  stat_smooth(method = "lm", col = "red") +
+   scale_x_continuous(trans='log2') +
+  ggtitle("Life expectancy as a function of GDP with lm fit") +
+  labs(x = "log(GDP)", y = "Life Expectancy")
+```
+<br>
+
+## Conclusion: GDP is a significant predictor of life expectancy in African countries in the year 2000 (t = 2.516, p = 0.0152).
