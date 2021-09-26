@@ -1,10 +1,90 @@
 ---
 title: "Visualization"
-output: 
+output:
+  word_document:
+    toc: no
   html_document:
-    toc: FALSE
+    toc: no
 ---
+# [link to original page](https://fivethirtyeight.com/features/which-state-has-the-worst-drivers/?fbclid=IwAR2_xY0IwlqkFRTP3tKVHXz9PqclX4P_usqhtbcAq2MBerxOBhdDVq9nVDA) 
+```{r}
 
-This will contain the future visualization exercise.
 
 
+# From first four graphs, I recreated one.
+ 
+# My code:
+setwd("~/Study /MADA_2021/Ehsan_Suez-MADA-portfolio")
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(readr)
+```
+
+```{r}
+hw5<-read_csv("hw5.csv")
+colnames(hw5)
+
+hw5.1 <- hw5 %>% pivot_longer(names_to = "Categories", values_to = "Percentage", cols = c("Percentage of drivers involved in fatal collosion who were speeding", "Percentage of drivers involved in fatal collosion who were alchohol-impaired", "Percentage of drivers involved in fatal collosion who were not-distracted",  "Percentage of drivers involved in fatal collosion who had not been involved in any previous accident"))
+
+hw5.2 <- hw5.1 %>% 
+  mutate(Number.collisiion.Each.Category = `Number of drivers involved in fatal collisiion per billion miles` * Percentage * 0.01)
+
+hw5.3 <- hw5.2 %>% pivot_longer(names_to = "Category.Number", values_to = "Number.Collisiion", cols = c("Number of drivers involved in fatal collisiion per billion miles", "Number.collisiion.Each.Category"))
+
+# subset different percentage category for different cause of fatal accident
+
+
+# use speeding to recreate the third graph
+
+hw5.3.speed <- hw5.3 %>% subset(Categories == "Percentage of drivers involved in fatal collosion who were speeding")
+
+ggplot(hw5.3.speed, aes( x=State, y= Number.Collisiion,alpha=Category.Number))+
+  labs(title="Driver Who involved in fatal collisions while speeding")+
+  geom_bar(stat= 'identity',position = "stack", fill="maroon" ) +
+  theme(axis.text.x = element_text(angle=90), legend.position = "none")+
+  coord_flip()
+```                                         
+
+
+
+# Now recreating the last two graphs:
+```{r}
+
+hw5<-read_csv("hw5.csv")
+hw5$Insurance<-round(hw5$`Car insurance premium ($)`,0)
+hw5 <- select(hw5, State, Insurance)
+
+ ggplot(hw5,aes(y=State, x= Insurance))+
+  labs(title="Average Combined Insurance Premium")+ 
+  labs(subtitle = '2011')+
+  geom_bar(stat= 'identity', fill="purple", width = 0.8)+
+  scale_y_discrete(limits=rev)+
+  geom_text(aes(label=Insurance), size=3,color = 'white', hjust = 1.5, fontface = 'bold')+
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.ticks.x=element_blank(), axis.ticks.y=element_blank(),
+        axis.text.x=element_blank(), plot.title = element_text(face = 'bold', hjust = -0.36), 
+        plot.subtitle = element_text(hjust = -.18))
+```
+
+
+
+
+```{r}
+
+hw5<-read_csv("hw5.csv")
+hw5$Loss<-hw5$`Losses incurred by insurance companies for collisions per insured driver ($)`
+hw5 <- select(hw5, State, Loss)
+ggplot(hw5,aes(y=State, x= Loss))+
+  labs(title="Losses Incurred by Insurance Companies")+ 
+  labs(subtitle = 'Collisions per insured drivers, 2010')+
+  geom_bar(stat= 'identity', fill="pink", width = 0.8)+
+  scale_y_discrete(limits=rev)+
+  geom_text(aes(label=Loss), size=3,color = 'white', hjust = 1.5, fontface = 'bold')+
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.ticks.x=element_blank(), axis.ticks.y=element_blank(),
+        axis.text.x=element_blank(), plot.title = element_text(face = 'bold', hjust = 1.2), 
+        plot.subtitle = element_text(hjust = -4.6))
+```
+                                                                                          
+                                                                                          
