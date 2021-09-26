@@ -1,9 +1,9 @@
 ---
 title: "Visualization"
 output:
-  word_document:
-    toc: no
   html_document:
+    toc: no
+  word_document:
     toc: no
 ---
 # [link to original page](https://fivethirtyeight.com/features/which-state-has-the-worst-drivers/?fbclid=IwAR2_xY0IwlqkFRTP3tKVHXz9PqclX4P_usqhtbcAq2MBerxOBhdDVq9nVDA) 
