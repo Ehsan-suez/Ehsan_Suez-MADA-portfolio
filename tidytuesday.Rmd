@@ -1,9 +1,143 @@
 ---
 title: "Tidy Tuesday"
-output: 
+output:
+  word_document:
+    toc: no
   html_document:
-    toc: FALSE
+    toc: no
 ---
 
-This will contain the future Tidy Tuesday exercise.
 
+# First install packages and load libraries
+```{r}
+library('readr')
+library('readr')
+library('ggplot2')
+library("dplyr")
+library("stringr")
+library("scales")
+```
+
+
+# Read all the papers manually from the source
+```{r}
+papers <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/papers.csv')
+```
+```{r}
+glimpse(papers)
+```
+```{r}
+paper_authors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_authors.csv')
+```
+
+```{r}
+glimpse(paper_authors)
+```
+
+```{r}
+authors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/authors.csv')
+```
+
+```{r}
+glimpse(authors)
+```
+
+```{r}
+paper_programs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_programs.csv')
+```
+```{r}
+glimpse(paper_programs)
+```
+
+```{r}
+programs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/programs.csv')
+```
+
+```{r}
+glimpse(programs)
+```
+```
+
+
+#View each of them and then write each of them as a csv file
+
+
+
+```{r}
+write_csv(x = papers, "Data/papers.csv")
+write_csv(x = authors, "data/authors.csv")
+write_csv(x = programs, "data/programs.csv")
+write_csv(x = paper_authors, "data/paper_authors.csv")
+write_csv(x = paper_programs, "data/paper_programs.csv")
+```
+
+
+#Clean the data and joined them [left joining]
+```{r}
+joined <- left_join(papers, paper_authors) %>% 
+    left_join(authors) %>% 
+     left_join(paper_programs) %>% 
+     left_join(programs)%>% 
+     mutate(
+         catalogue_group = str_sub(paper, 1, 1),
+         catalogue_group = case_when(
+             catalogue_group == "h" ~ "Historical",
+             catalogue_group == "t" ~ "Technical",
+             catalogue_group == "w" ~ "General"
+         ),
+         .after = paper
+     ) 
+```
+View(joined)
+
+
+# See how many distinct values are there for each category
+```{r}
+sapply(joined, n_distinct)
+```
+
+#Let's see how many papers publishes each year throughout the 1973-2001 time
+```{r}
+ggplot(joined, aes(x=year, fill=catalogue_group)) + geom_bar() + labs(title= "Paper Count by year and cat_group between 1973 to 2001") + xlab("Year") + ylab("Count")
+```
+
+#It's quite clear that the majority is "general" type. So, let's do something else. What about finding number of papers according to program category? Lets do it
+```{r}
+ggplot(joined, aes(x=program_category)) +
+             geom_bar(fill = "red") + labs(title= "Paper number by Program Category between 1973 to 2021") + xlab("Program Category") + ylab("Number")
+```
+
+#What about numbe rof papper for each year?             
+```{r}
+ggplot(joined, aes(x=year)) +
+                             geom_bar(fill = "red") + labs(title= "Paper number by year between 1973 to 2021") + xlab("year") + ylab("Number")
+```
+#What about number of paper for each year categorized by program name also?
+```{r}
+ggplot(joined, aes(x=year, fill=program)) + geom_bar() + labs(title= "Paper number by year and program between 1973 to 2001") + xlab("Year") + ylab("Number")
+```
+
+#Most number of papers were in 2000. Let's look deeper in that
+```{r}
+data_2000 <- joined %>% filter(year ==2000)
+```
+
+#View the 2000 data
+```{r}
+glimpse(data_2000)
+```
+
+```{r}
+#Let's see how many papers from each program got published in each month of 2000?
+ggplot(joined, aes(x=month, fill=program_category)) + geom_bar() + labs(title= "Paper Count by month and program category in 2000") + xlab("Month") + ylab("Count")
+```
+
+```{r}
+#We got a problem here. The x axis (month number is not integer. Let's fix it.
+
+ggp <- ggplot(joined, aes(x=month, fill=program_category)) + geom_bar() + labs(title= "Paper Count by month and program category in 2000") + xlab("Month") + ylab("Count")
+
+#fixed
+ggp + scale_x_continuous(breaks = pretty_breaks())
+
+```
