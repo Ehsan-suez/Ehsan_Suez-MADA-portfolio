@@ -1,0 +1,10 @@
+---
+title: "Tidy Tuesday exercise 2"
+output:
+  word_document:
+    toc: no
+  html_document:
+    toc: no
+---
+
+Will be filled next week
