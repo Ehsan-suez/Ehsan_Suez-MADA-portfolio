@@ -1,1 +1,1 @@
-This is the Github repository for https://ehsan-suez.github.io/Ehsan_Suez-MADA-portfolio/aboutme.html
+https://ehsan-suez.github.io/Ehsan_Suez-MADA-portfolio/aboutme.html
