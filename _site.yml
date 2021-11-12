@@ -21,6 +21,18 @@ navbar:
           href: ./tidytuesday.html
         - text: "Tidy Tuesday exercise 2"
           href: ./tidytuesday_exercise2.html
+        - text: "Influenza Analysis Project"
+          menu:
+            - text: "Introduction"
+              href: ./flu_analysis_proj.html
+            - text: "Exploratory Data Analysis"
+              href: ./exploration.html
+            - text: "TidyModels Analysis Part 1"
+              href: ./analysisscript.html
+            - text: "TidyModels Analysis Part 2"
+              href: ./analysisscript2.html
+            - text: "Machine Learning Analysis"
+              href: ./analysis3_ML.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/Ehsan-suez/Ehsan_Suez-MADA-portfolio       

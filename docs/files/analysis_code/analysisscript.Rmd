@@ -1,0 +1,88 @@
+###############################
+# analysis script
+#
+#this script loads the processed, cleaned data, does a simple analysis
+#and saves the results to the results folder
+
+#load needed packages. make sure they are installed.
+```{r}
+library(tidymodels)
+library(readr)       # for importing data
+library(tidyverse)
+library(dotwhisker)
+library(broom.mixed)
+library(here)
+```
+
+#path to data
+#note the use of the here() package and not absolute paths
+```{r}
+data_location <- here::here("files","processed_data","processeddata.rds")
+```
+
+#load data. 
+```{r}
+mydata <- readRDS(data_location)
+```
+
+#linear model between bodytemp and runnynose
+```{r}
+lm_mod <- 
+       linear_reg() %>% 
+       set_engine("lm")
+lm_fit <- 
+       lm_mod %>% 
+       fit(BodyTemp ~ RunnyNose, data = mydata)
+lm_fit
+glance(lm_fit)
+tidy(lm_fit)
+```
+
+#linear model between body temp and all other variable
+```{R}
+lm_fit2 <- lm_mod %>%
+                     fit(BodyTemp ~ ., data = mydata)
+lm_fit2
+glance(lm_fit2)
+tidy(lm_fit2)
+```
+#compare both linear models
+```{r}
+compare_lin_model <- anova(lm_fit$fit, lm_fit2$fit)
+compare_lin_model
+```
+
+#log model betweem fatigua and runnynose
+```{r}
+lg_mod <- 
+       logistic_reg() %>% 
+       set_engine("glm")
+lg_fit <-
+       lg_mod %>%
+       fit(Fatigue ~ RunnyNose, data = mydata)
+lg_fit
+glance(lg_fit)
+tidy(lg_fit)
+```
+#log model between runnynose and all variables
+```{r}
+lg_fit2 <- lg_mod %>%
+        fit(RunnyNose ~ ., data = mydata)
+lg_fit2
+glance(lg_fit2)
+tidy(lg_fit2)
+```
+#compare both models
+```{r}
+compare_log_model <- anova(lg_fit$fit, lg_fit2$fit)
+compare_log_model
+```
+
+# save fit results table 
+```{r}
+saveRDS(compare_lin_model, file = here("files","results", "analysis", "LinearModel.rds"))
+saveRDS(compare_log_model, file = here("files", "results", "analysis", "LogisticModel.rds"))
+``` 
+
+
+  

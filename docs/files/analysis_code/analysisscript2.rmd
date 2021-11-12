@@ -1,0 +1,251 @@
+---
+title: "analysisscript2"
+author: "Ehsan"
+date: "10/20/2021"
+output: html_document
+---
+# Libraries 
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(dplyr)
+library(here)
+```
+
+#Load data
+```{r}
+data_location <- here::here("files","processed_data","processeddata.rds")
+```
+```{r}
+data <- readRDS(data_location)
+```
+#set seed for random numbers
+```{r}
+set.seed(222)
+```
+#put 3/4 of data into the training set
+```{r}
+split_data <- initial_split(data, prop = 3/4)
+```
+# create two dataframe: test and training
+```{r}
+training_data <- training(split_data)
+test_data  <- testing(split_data)
+```
+#Create a simple recipe that fits categorical outcome of interest (Nausea) to all predictors.
+```{r}
+nausea_recipe <- recipe(Nausea ~., data = training_data)
+```
+#path for logistic regression model
+```{r}
+lg_mod <- logistic_reg() %>% 
+  set_engine("glm")
+```
+#create workflow, add model type and the recipe 
+```{r}
+Nausea_workflow <- 
+  workflow() %>% 
+  add_model(lg_mod) %>% 
+  add_recipe(nausea_recipe) 
+```
+#model fitting to training data 
+```{r}
+Nausea_fit <- 
+  Nausea_workflow %>% 
+  fit(data = training_data)
+```
+#how it looks
+```{r}
+Nausea_fit %>% 
+  extract_fit_parsnip() %>% 
+  tidy()
+```
+
+#applying oit to make some predictions on test data
+```{r}
+predict(Nausea_fit, test_data)
+```
+#more prediction using augment. 
+```{r}
+Nausea_augment_predict <- 
+  augment(Nausea_fit, test_data)
+```
+#evaluate ROC and ROC_auc to see how good it fits the data
+```{r}
+Nausea_augment_predict %>% 
+  roc_curve(truth = Nausea, .pred_Yes, event_level = "second") %>% 
+  autoplot()
+```
+ 
+```{r}
+Nausea_augment_predict %>%
+  roc_auc(truth = Nausea, .pred_Yes, event_level = "second")
+```
+#roc_auc value is 0.72, which is good.
+
+#predict, augment, ROC-curve, roc_auc for the training data this time
+```{r}
+predict(Nausea_fit, training_data)
+```
+
+```{r}
+Nausea_augment_predict1 <- 
+  augment(Nausea_fit, training_data)
+```
+
+```{r}
+Nausea_augment_predict1 %>% 
+  roc_curve(truth = Nausea, .pred_Yes, event_level = "second") %>% 
+  autoplot()
+```
+  
+```{r}
+Nausea_augment_predict1 %>%
+  roc_auc(truth = Nausea, .pred_Yes, event_level = "second")
+```
+#roc_auc value is 0.78, which is good.
+
+
+
+#Alternative model using just the main predictor: runny nose. Making recipe
+```{r}
+nausea_rec_Alt <- recipes::recipe(Nausea ~ RunnyNose, data = training_data)
+```
+
+```{r}
+lg_mod <- logistic_reg() %>% 
+  set_engine("glm")
+```
+#creating workflow with the alternative recipe
+```{r}
+Nausea_Alt_workflow <- 
+  workflow() %>% 
+  add_model(lg_mod) %>% 
+  add_recipe(nausea_rec_Alt) 
+```
+#fit it to training data
+```{r}
+Nausea_fit2 <- 
+  Nausea_Alt_workflow %>% 
+  fit(data = training_data)
+```
+#see how it looks
+```{r}
+Nausea_fit2 %>% 
+  extract_fit_parsnip() %>% 
+  tidy()
+```
+#prediction from test data
+```{r}
+predict(Nausea_fit2, test_data)
+```
+
+#prediction + augment from test data
+```{r}
+Nausea_augment_predict3 <- 
+  augment(Nausea_fit2, test_data)
+```
+#roc_curve and roc_auc from test data
+```{r}
+Nausea_augment_predict3 %>% 
+  roc_curve(truth = Nausea, .pred_Yes, event_level = "second") %>% 
+  autoplot()
+```
+  
+```{r}
+Nausea_augment_predict3 %>%
+  roc_auc(truth = Nausea, .pred_Yes, event_level = "second")
+```
+#now predict, predict+augment, roc_curve and roc_Auc for the test data
+```{r}
+predict(Nausea_fit2, training_data)
+```
+
+```{r}
+Nausea_augment_predict4 <- 
+  augment(Nausea_fit2, training_data)
+```
+
+```{r}
+Nausea_augment_predict4 %>% 
+  roc_curve(truth = Nausea, .pred_Yes, event_level = "second") %>% 
+  autoplot()
+```
+  
+```{r}
+Nausea_augment_predict4 %>%
+  roc_auc(truth = Nausea, .pred_Yes, event_level = "second")
+```
+#roc-auc value for both test and training data set using the alternative model is below 0.5. So this alternative model is not a good fit.
+
+<<<<<<< HEAD
+
+=======
+# ###################### Below is where Zhihan's part starts ###################
+
+
+# receipe for model with all predictors and the linear model
+>>>>>>> master
+```{r}
+all_prdtr_rec <- recipe(BodyTemp ~ ., data = training_data) 
+single_prdtr_rec <- recipe(BodyTemp ~ RunnyNose, data = training_data)
+lm_mod <- linear_reg() %>% set_engine("lm")
+```
+#creating workflow
+```{r}
+BT_all_workflow <- 
+  workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(all_prdtr_rec) 
+```
+#model fitting to training data 
+```{r}
+BT_all_fit <- 
+  BT_all_workflow %>% 
+  fit(data = training_data)
+```
+#applying oit to make some predictions on test data
+```{r}
+predict(BT_all_fit, test_data)
+```
+#more prediction using augment. 
+```{r}
+body_temp_predict <- 
+  augment(BT_all_fit, test_data)
+body_temp_predict %>% select(BodyTemp,.pred)
+```
+#evaluate rmse to see how good it fits the data
+```{r}
+body_temp_predict %>% 
+  rmse(truth = BodyTemp, .pred) 
+```
+
+#creating workflow
+```{r}
+BT_single_workflow <- 
+  workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(single_prdtr_rec) 
+```
+#model fitting to training data 
+```{r}
+BT_single_fit <- 
+  BT_single_workflow %>% 
+  fit(data = training_data)
+```
+#applying oit to make some predictions on test data
+```{r}
+predict(BT_single_fit, test_data)
+```
+#more prediction using augment. 
+```{r}
+body_temp_predict <- 
+  augment(BT_single_fit, test_data)
+body_temp_predict %>% select(BodyTemp,.pred)
+```
+#evaluate rmse to see how good it fits the data
+```{r}
+body_temp_predict %>% 
+  rmse(truth = BodyTemp, .pred) 
+```
+# rmse for single predictor model is 1.1x, while that for all-predictor model is also 1.1x. Therefore, all-predictor model and the single predictor model are similar in prediction accuracy. 
