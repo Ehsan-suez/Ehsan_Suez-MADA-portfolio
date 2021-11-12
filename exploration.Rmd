@@ -1,0 +1,79 @@
+---
+title: "Exploration"
+author: "Ehsan"
+date: "10/13/2021"
+output: html_document
+---
+```{r}
+library(tidyverse)
+library(here)
+```
+
+```{r}
+data_location <- here::here("files", "processed_data", "processeddata.rds")
+d1 <- readRDS(data_location)
+```
+
+#Nausea
+```{r}
+summary(d1$Nause)
+```
+#plotting Nause count
+```{r}
+plot1 <- ggplot(data = d1) +
+    geom_bar(mapping = aes(x = Nausea))
+plot1
+```
+#Bodytemp
+```{r}    
+summary(d1$BodyTemp)
+```
+#plotting body tmep count
+```{r}
+plot2 <- ggplot(data = d1) +
+  geom_histogram(mapping = aes(x = BodyTemp), binwidth = 0.05)
+plot2
+```
+#plotting y~x, y= bodytemp, x=nausea
+```{r}
+ plot3 <- ggplot(data = d1, mapping = aes(x = Nausea, y = BodyTemp)) +  
+  geom_boxplot()
+plot3
+```
+#how body temp and nasal congestation relates
+```{r}
+plot4 <- ggplot(data = d1) +
+     geom_boxplot(mapping = aes(x = reorder(NasalCongestion,BodyTemp, FUN = median), y = BodyTemp)) +
+    coord_flip()
+plot4
+```
+#how weakness and body temp relates
+```{r}
+plot5 <- ggplot(data = d1) +
+           geom_boxplot(mapping = aes(x = reorder(Weakness,BodyTemp, FUN = median), y = BodyTemp)) +
+           coord_flip()
+plot5
+```
+```{r}
+plot6 <- ggplot(data = d1) +
+     geom_count(mapping = aes(x = Fatigue, y = Nausea))
+plot6
+```
+ #alternatively,
+```{r}
+fatigue_Nausea <- d1 %>% 
+    count(Fatigue, Nausea)
+fatigue_Nausea
+```
+#also, this can be done for more visualization
+```{r}
+fat_nau <- d1 %>% 
+     count(Fatigue, Nausea) %>%  
+     ggplot(mapping = aes(x = Fatigue, y = Nausea)) +
+     geom_tile(mapping = aes(fill = n)) 
+fat_nau
+```
+#runny nose stat
+```{r}
+table(d1$RunnyNose)
+```

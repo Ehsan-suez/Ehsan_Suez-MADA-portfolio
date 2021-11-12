@@ -23,8 +23,6 @@ navbar:
           href: ./tidytuesday_exercise2.html
         - text: "Influenza Analysis Project"
           menu:
-            - text: "Introduction"
-              href: ./flu_analysis_proj.html
             - text: "Exploratory Data Analysis"
               href: ./exploration.html
             - text: "TidyModels Analysis Part 1"
