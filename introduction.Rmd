@@ -1,0 +1,28 @@
+---
+title: "Influenza Analysis Project"
+output: 
+  html_document:
+    
+    toc: FALSE
+---
+<br>
+
+## Overview
+This sub-menu reflects a multi-week project focused on analyzing data from potential influenza patients. The full analysis with more detail can be found in [this GitHub repository](https://github.com/Ehsan-suez/Ehsansuez-MADA-analysis3).
+
+---
+
+## Data Background
+
+* The raw data for this exercise comes from the following citation:
+McKay, Brian et al. (2020), Virulence-mediated infectiousness and activity trade-offs and their impact on transmission potential of patients infected with influenza, Dryad, Dataset, https://doi.org/10.5061/dryad.51c59zw4v.
+* The above link also includes a data dictionary for further information about the data.
+
+---
+
+## MADA Exercises
+The analyses reflected here correspond to the following exercises in Dr. Andreas Handel's MADA course:
+
+* Module 8: [Fitting Basic Statistical Models](https://andreashandel.github.io/MADAcourse/Assessment_Basic_Models.html)
+* Module 9: [Evaluating Model Fits](https://andreashandel.github.io/MADAcourse/Assessment_Model_Evaluation.html)
+* Module 11: [Machine Learning Models I](https://andreashandel.github.io/MADAcourse/Assessment_ML_Models_1.html)
