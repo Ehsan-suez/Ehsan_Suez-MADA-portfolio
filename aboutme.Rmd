@@ -7,7 +7,7 @@ knitr::include_graphics ('image.jpeg')
 
 # **Background:** 
 
-I am Ehsan. I completed by BS in Biotechnology from Jahangirnagar University, Bangladesh. Then I came to the US and completed my MS in Biology from Missouri State University. My thesis works was completely experimental as it involved protein purification and subsequent interaction assay. I wanted to continue protein study, but using computaional/biinformatical approaches. And to fulfil that, I came to UGA and started my PhD in Bioinformatics last spring.
+I am Ehsan. I completed by BS in Biotechnology from Jahangirnagar University, Bangladesh. Then I came to the US and completed my MS in Biology from Missouri State University. My thesis works was completely experimental as it involved protein purification and subsequent interaction assay. I wanted to continue protein study, but using computaional/biinformatical approaches. And to fulfil that, I came to UGA and started my PhD in Bioinformatics spring'2021.
 
 # **Current Research Interest:**
 
