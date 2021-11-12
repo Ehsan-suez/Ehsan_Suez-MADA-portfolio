@@ -13,7 +13,6 @@
 
 <title>Tidy Tuesday</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -52,28 +51,26 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -83,7 +80,7 @@ pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   { color: #cccccc; background-color: #303030; }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ffcfaf; } /* Alert */
 code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
@@ -344,6 +341,29 @@ $(document).ready(function () {
     <li>
       <a href="./tidytuesday.html">Tidy Tuesday</a>
     </li>
+    <li>
+      <a href="./tidytuesday_exercise2.html">Tidy Tuesday exercise 2</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Influenza Analysis Project</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="./introduction.html">Introduction</a>
+        </li>
+        <li>
+          <a href="./exploration.html">Exploratory Data Analysis</a>
+        </li>
+        <li>
+          <a href="./analysisscript.html">TidyModels Analysis Part 1</a>
+        </li>
+        <li>
+          <a href="./analysisscript2.html">TidyModels Analysis Part 2</a>
+        </li>
+        <li>
+          <a href="./analysis3ML.html">Machine Learning Analysis</a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </li>
       </ul>
@@ -370,29 +390,16 @@ $(document).ready(function () {
 
 <div id="first-install-packages-and-load-libraries" class="section level1">
 <h1>First install packages and load libraries</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&#39;readr&#39;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&#39;readr&#39;</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&#39;ggplot2&#39;</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;stringr&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;scales&quot;</span>)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;scales&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:readr&#39;:
-## 
-##     col_factor</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&#39;readr&#39;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&#39;readr&#39;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&#39;ggplot2&#39;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(<span class="st">&quot;stringr&quot;</span>)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(<span class="st">&quot;scales&quot;</span>)</a></code></pre></div>
 </div>
 <div id="read-all-the-papers-manually-from-the-source" class="section level1">
 <h1>Read all the papers manually from the source</h1>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>papers <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/papers.csv&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">papers &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/papers.csv&#39;</span>)</a></code></pre></div>
 <pre><code>## Rows: 29434 Columns: 4</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -401,14 +408,14 @@ $(document).ready(function () {
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(papers)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">glimpse</span>(papers)</a></code></pre></div>
 <pre><code>## Rows: 29,434
 ## Columns: 4
 ## $ paper &lt;chr&gt; &quot;w0001&quot;, &quot;w0002&quot;, &quot;w0003&quot;, &quot;w0004&quot;, &quot;w0005&quot;, &quot;w0006&quot;, &quot;w0007&quot;, &quot;…
 ## $ year  &lt;dbl&gt; 1973, 1973, 1973, 1973, 1973, 1973, 1973, 1973, 1973, 1973, 1973…
 ## $ month &lt;dbl&gt; 6, 6, 6, 7, 7, 7, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 12,…
 ## $ title &lt;chr&gt; &quot;Education, Information, and Efficiency&quot;, &quot;Hospital Utilization:…</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>paper_authors <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_authors.csv&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">paper_authors &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_authors.csv&#39;</span>)</a></code></pre></div>
 <pre><code>## Rows: 67090 Columns: 2</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -416,12 +423,12 @@ $(document).ready(function () {
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(paper_authors)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">glimpse</span>(paper_authors)</a></code></pre></div>
 <pre><code>## Rows: 67,090
 ## Columns: 2
 ## $ paper  &lt;chr&gt; &quot;w0001&quot;, &quot;w0002&quot;, &quot;w0003&quot;, &quot;w0004&quot;, &quot;w0005&quot;, &quot;w0006&quot;, &quot;w0007&quot;, …
 ## $ author &lt;chr&gt; &quot;w0001.1&quot;, &quot;w0002.1&quot;, &quot;w0003.1&quot;, &quot;w0004.1&quot;, &quot;w0005.1&quot;, &quot;w0006.1…</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>authors <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/authors.csv&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">authors &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/authors.csv&#39;</span>)</a></code></pre></div>
 <pre><code>## Rows: 15437 Columns: 4</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -429,14 +436,14 @@ $(document).ready(function () {
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(authors)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">glimpse</span>(authors)</a></code></pre></div>
 <pre><code>## Rows: 15,437
 ## Columns: 4
 ## $ author     &lt;chr&gt; &quot;w0001.1&quot;, &quot;w0002.1&quot;, &quot;w0003.1&quot;, &quot;w0004.1&quot;, &quot;w0005.1&quot;, &quot;w00…
 ## $ name       &lt;chr&gt; &quot;Finis Welch&quot;, &quot;Barry R Chiswick&quot;, &quot;Swarnjit S Arora&quot;, &quot;Lee…
 ## $ user_nber  &lt;chr&gt; &quot;finis_welch&quot;, &quot;barry_chiswick&quot;, &quot;swarnjit_arora&quot;, NA, &quot;jam…
 ## $ user_repec &lt;chr&gt; NA, &quot;pch425&quot;, NA, &quot;pli669&quot;, &quot;psm28&quot;, NA, NA, NA, &quot;pli259&quot;, …</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>paper_programs <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_programs.csv&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">paper_programs &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_programs.csv&#39;</span>)</a></code></pre></div>
 <pre><code>## Rows: 53996 Columns: 2</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -444,12 +451,12 @@ $(document).ready(function () {
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(paper_programs)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">glimpse</span>(paper_programs)</a></code></pre></div>
 <pre><code>## Rows: 53,996
 ## Columns: 2
 ## $ paper   &lt;chr&gt; &quot;w0074&quot;, &quot;w0087&quot;, &quot;w0087&quot;, &quot;w0107&quot;, &quot;w0116&quot;, &quot;w0117&quot;, &quot;w0129&quot;,…
 ## $ program &lt;chr&gt; &quot;EFG&quot;, &quot;IFM&quot;, &quot;ITI&quot;, &quot;PE&quot;, &quot;PE&quot;, &quot;LS&quot;, &quot;HE&quot;, &quot;IFM&quot;, &quot;ITI&quot;, &quot;HE…</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>programs <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/programs.csv&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">programs &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/programs.csv&#39;</span>)</a></code></pre></div>
 <pre><code>## Rows: 21 Columns: 3</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -457,39 +464,33 @@ $(document).ready(function () {
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(programs)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">glimpse</span>(programs)</a></code></pre></div>
 <pre><code>## Rows: 21
 ## Columns: 3
 ## $ program          &lt;chr&gt; &quot;AG&quot;, &quot;AP&quot;, &quot;CF&quot;, &quot;CH&quot;, &quot;DAE&quot;, &quot;DEV&quot;, &quot;ED&quot;, &quot;EEE&quot;, &quot;E…
 ## $ program_desc     &lt;chr&gt; &quot;Economics of Aging&quot;, &quot;Asset Pricing&quot;, &quot;Corporate Fin…
 ## $ program_category &lt;chr&gt; &quot;Micro&quot;, &quot;Finance&quot;, &quot;Finance&quot;, &quot;Micro&quot;, &quot;Micro&quot;, &quot;Mic…</code></pre>
-<pre><code>
-
-#View each of them and then write each of them as a csv file
-
-
-
-
-```r
-write_csv(x = papers, &quot;Data/papers.csv&quot;)
-write_csv(x = authors, &quot;data/authors.csv&quot;)
-write_csv(x = programs, &quot;data/programs.csv&quot;)
-write_csv(x = paper_authors, &quot;data/paper_authors.csv&quot;)
-write_csv(x = paper_programs, &quot;data/paper_programs.csv&quot;)</code></pre>
+<p>```</p>
+<p>#View each of them and then write each of them as a csv file</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">write_csv</span>(<span class="dt">x =</span> papers, <span class="st">&quot;Data/papers.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">write_csv</span>(<span class="dt">x =</span> authors, <span class="st">&quot;data/authors.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="kw">write_csv</span>(<span class="dt">x =</span> programs, <span class="st">&quot;data/programs.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="kw">write_csv</span>(<span class="dt">x =</span> paper_authors, <span class="st">&quot;data/paper_authors.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="kw">write_csv</span>(<span class="dt">x =</span> paper_programs, <span class="st">&quot;data/paper_programs.csv&quot;</span>)</a></code></pre></div>
 <p>#Clean the data and joined them [left joining]</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>joined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(papers, paper_authors) <span class="sc">%&gt;%</span> </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(authors) <span class="sc">%&gt;%</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">left_join</span>(paper_programs) <span class="sc">%&gt;%</span> </span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">left_join</span>(programs)<span class="sc">%&gt;%</span> </span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">mutate</span>(</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">catalogue_group =</span> <span class="fu">str_sub</span>(paper, <span class="dv">1</span>, <span class="dv">1</span>),</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">catalogue_group =</span> <span class="fu">case_when</span>(</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>             catalogue_group <span class="sc">==</span> <span class="st">&quot;h&quot;</span> <span class="sc">~</span> <span class="st">&quot;Historical&quot;</span>,</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>             catalogue_group <span class="sc">==</span> <span class="st">&quot;t&quot;</span> <span class="sc">~</span> <span class="st">&quot;Technical&quot;</span>,</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>             catalogue_group <span class="sc">==</span> <span class="st">&quot;w&quot;</span> <span class="sc">~</span> <span class="st">&quot;General&quot;</span></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>         ),</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">.after =</span> paper</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>     ) </span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">joined &lt;-<span class="st"> </span><span class="kw">left_join</span>(papers, paper_authors) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">    </span><span class="kw">left_join</span>(authors) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">     </span><span class="kw">left_join</span>(paper_programs) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="st">     </span><span class="kw">left_join</span>(programs)<span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="st">     </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb33-6" data-line-number="6">         <span class="dt">catalogue_group =</span> <span class="kw">str_sub</span>(paper, <span class="dv">1</span>, <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb33-7" data-line-number="7">         <span class="dt">catalogue_group =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb33-8" data-line-number="8">             catalogue_group <span class="op">==</span><span class="st"> &quot;h&quot;</span> <span class="op">~</span><span class="st"> &quot;Historical&quot;</span>,</a>
+<a class="sourceLine" id="cb33-9" data-line-number="9">             catalogue_group <span class="op">==</span><span class="st"> &quot;t&quot;</span> <span class="op">~</span><span class="st"> &quot;Technical&quot;</span>,</a>
+<a class="sourceLine" id="cb33-10" data-line-number="10">             catalogue_group <span class="op">==</span><span class="st"> &quot;w&quot;</span> <span class="op">~</span><span class="st"> &quot;General&quot;</span></a>
+<a class="sourceLine" id="cb33-11" data-line-number="11">         ),</a>
+<a class="sourceLine" id="cb33-12" data-line-number="12">         <span class="dt">.after =</span> paper</a>
+<a class="sourceLine" id="cb33-13" data-line-number="13">     ) </a></code></pre></div>
 <pre><code>## Joining, by = &quot;paper&quot;</code></pre>
 <pre><code>## Joining, by = &quot;author&quot;</code></pre>
 <pre><code>## Joining, by = &quot;paper&quot;</code></pre>
@@ -498,7 +499,7 @@ write_csv(x = paper_programs, &quot;data/paper_programs.csv&quot;)</code></pre>
 </div>
 <div id="see-how-many-distinct-values-are-there-for-each-category" class="section level1">
 <h1>See how many distinct values are there for each category</h1>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(joined, n_distinct)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">sapply</span>(joined, n_distinct)</a></code></pre></div>
 <pre><code>##            paper  catalogue_group             year            month 
 ##            29434                3               49               12 
 ##            title           author             name        user_nber 
@@ -506,22 +507,22 @@ write_csv(x = paper_programs, &quot;data/paper_programs.csv&quot;)</code></pre>
 ##       user_repec          program     program_desc program_category 
 ##             5456               22               22                4</code></pre>
 <p>#Let’s see how many papers publishes each year throughout the 1973-2001 time</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(joined, <span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">fill=</span>catalogue_group)) <span class="sc">+</span> <span class="fu">geom_bar</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Paper Count by year and cat_group between 1973 to 2001&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Count&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">ggplot</span>(joined, <span class="kw">aes</span>(<span class="dt">x=</span>year, <span class="dt">fill=</span>catalogue_group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span> <span class="st">&quot;Paper Count by year and cat_group between 1973 to 2001&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Count&quot;</span>)</a></code></pre></div>
 <p><img src="tidytuesday_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>#It’s quite clear that the majority is “general” type. So, let’s do something else. What about finding number of papers according to program category? Lets do it</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(joined, <span class="fu">aes</span>(<span class="at">x=</span>program_category)) <span class="sc">+</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Paper number by Program Category between 1973 to 2021&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Program Category&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Number&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">ggplot</span>(joined, <span class="kw">aes</span>(<span class="dt">x=</span>program_category)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="st">             </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span> <span class="st">&quot;Paper number by Program Category between 1973 to 2021&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Program Category&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Number&quot;</span>)</a></code></pre></div>
 <p><img src="tidytuesday_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>#What about numbe rof papper for each year?</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(joined, <span class="fu">aes</span>(<span class="at">x=</span>year)) <span class="sc">+</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Paper number by year between 1973 to 2021&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;year&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Number&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">ggplot</span>(joined, <span class="kw">aes</span>(<span class="dt">x=</span>year)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="st">                             </span><span class="kw">geom_bar</span>(<span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span> <span class="st">&quot;Paper number by year between 1973 to 2021&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Number&quot;</span>)</a></code></pre></div>
 <p><img src="tidytuesday_files/figure-html/unnamed-chunk-17-1.png" width="672" /> #What about number of paper for each year categorized by program name also?</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(joined, <span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">fill=</span>program)) <span class="sc">+</span> <span class="fu">geom_bar</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Paper number by year and program between 1973 to 2001&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Number&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">ggplot</span>(joined, <span class="kw">aes</span>(<span class="dt">x=</span>year, <span class="dt">fill=</span>program)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span> <span class="st">&quot;Paper number by year and program between 1973 to 2001&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Number&quot;</span>)</a></code></pre></div>
 <p><img src="tidytuesday_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>#Most number of papers were in 2000. Let’s look deeper in that</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>data_2000 <span class="ot">&lt;-</span> joined <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span><span class="dv">2000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">data_<span class="dv">2000</span> &lt;-<span class="st"> </span>joined <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(year <span class="op">==</span><span class="dv">2000</span>)</a></code></pre></div>
 <p>#View the 2000 data</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_2000)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">glimpse</span>(data_<span class="dv">2000</span>)</a></code></pre></div>
 <pre><code>## Rows: 1,962
 ## Columns: 12
 ## $ paper            &lt;chr&gt; &quot;w6130&quot;, &quot;w6130&quot;, &quot;w6509&quot;, &quot;w6509&quot;, &quot;w6518&quot;, &quot;w6518&quot;,…
@@ -536,15 +537,15 @@ write_csv(x = paper_programs, &quot;data/paper_programs.csv&quot;)</code></pre>
 ## $ program          &lt;chr&gt; &quot;AP&quot;, &quot;AP&quot;, &quot;LE&quot;, &quot;LE&quot;, &quot;ME&quot;, &quot;ME&quot;, &quot;CF&quot;, &quot;CF&quot;, &quot;IFM&quot;…
 ## $ program_desc     &lt;chr&gt; &quot;Asset Pricing&quot;, &quot;Asset Pricing&quot;, &quot;Law and Economics&quot;…
 ## $ program_category &lt;chr&gt; &quot;Finance&quot;, &quot;Finance&quot;, &quot;Micro&quot;, &quot;Micro&quot;, &quot;Macro/Intern…</code></pre>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Let&#39;s see how many papers from each program got published in each month of 2000?</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(joined, <span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">fill=</span>program_category)) <span class="sc">+</span> <span class="fu">geom_bar</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Paper Count by month and program category in 2000&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Month&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Count&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co">#Let&#39;s see how many papers from each program got published in each month of 2000?</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw">ggplot</span>(joined, <span class="kw">aes</span>(<span class="dt">x=</span>month, <span class="dt">fill=</span>program_category)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span> <span class="st">&quot;Paper Count by month and program category in 2000&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Month&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Count&quot;</span>)</a></code></pre></div>
 <p><img src="tidytuesday_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We got a problem here. The x axis (month number is not integer. Let&#39;s fix it.</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>ggp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(joined, <span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">fill=</span>program_category)) <span class="sc">+</span> <span class="fu">geom_bar</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Paper Count by month and program category in 2000&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Month&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co">#fixed</span></span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>ggp <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">pretty_breaks</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co">#We got a problem here. The x axis (month number is not integer. Let&#39;s fix it.</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">ggp &lt;-<span class="st"> </span><span class="kw">ggplot</span>(joined, <span class="kw">aes</span>(<span class="dt">x=</span>month, <span class="dt">fill=</span>program_category)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span> <span class="st">&quot;Paper Count by month and program category in 2000&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Month&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Count&quot;</span>)</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="co">#fixed</span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">ggp <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">pretty_breaks</span>())</a></code></pre></div>
 <p><img src="tidytuesday_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 </div>
 

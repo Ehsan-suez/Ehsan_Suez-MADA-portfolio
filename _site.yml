@@ -32,7 +32,7 @@ navbar:
             - text: "TidyModels Analysis Part 2"
               href: ./analysisscript2.html
             - text: "Machine Learning Analysis"
-              href: ./analysis3_ML.html
+              href: ./analysis3ML.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/Ehsan-suez/Ehsan_Suez-MADA-portfolio       

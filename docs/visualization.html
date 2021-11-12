@@ -13,7 +13,6 @@
 
 <title>Visualization</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -52,28 +51,26 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -83,7 +80,7 @@ pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   { color: #cccccc; background-color: #303030; }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ffcfaf; } /* Alert */
 code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
@@ -363,7 +360,7 @@ $(document).ready(function () {
           <a href="./analysisscript2.html">TidyModels Analysis Part 2</a>
         </li>
         <li>
-          <a href="./analysis3_ML.html">Machine Learning Analysis</a>
+          <a href="./analysis3ML.html">Machine Learning Analysis</a>
         </li>
       </ul>
     </li>
@@ -393,23 +390,15 @@ $(document).ready(function () {
 
 <div id="link-to-original-page" class="section level1">
 <h1><a href="https://fivethirtyeight.com/features/which-state-has-the-worst-drivers/?fbclid=IwAR2_xY0IwlqkFRTP3tKVHXz9PqclX4P_usqhtbcAq2MBerxOBhdDVq9nVDA">link to original page</a></h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From first four graphs, I recreated one.</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># My code:</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/Study /MADA_2021/Ehsan_Suez-MADA-portfolio&quot;</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.4     ✓ dplyr   1.0.7
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   2.0.1     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hw5<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">&quot;hw5.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># From first four graphs, I recreated one.</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"> </a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># My code:</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">setwd</span>(<span class="st">&quot;~/Study /MADA_2021/Ehsan_Suez-MADA-portfolio&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">library</span>(knitr)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(readr)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">hw5&lt;-<span class="kw">read_csv</span>(<span class="st">&quot;hw5.csv&quot;</span>)</a></code></pre></div>
 <pre><code>## Rows: 51 Columns: 8</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -418,7 +407,7 @@ $(document).ready(function () {
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(hw5)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">colnames</span>(hw5)</a></code></pre></div>
 <pre><code>## [1] &quot;State&quot;                                                                                               
 ## [2] &quot;Number of drivers involved in fatal collisiion per billion miles&quot;                                    
 ## [3] &quot;Percentage of drivers involved in fatal collosion who were speeding&quot;                                 
@@ -427,31 +416,31 @@ $(document).ready(function () {
 ## [6] &quot;Percentage of drivers involved in fatal collosion who had not been involved in any previous accident&quot;
 ## [7] &quot;Car insurance premium ($)&quot;                                                                           
 ## [8] &quot;Losses incurred by insurance companies for collisions per insured driver ($)&quot;</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hw5<span class="fl">.1</span> <span class="ot">&lt;-</span> hw5 <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">&quot;Categories&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Percentage&quot;</span>, <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;Percentage of drivers involved in fatal collosion who were speeding&quot;</span>, <span class="st">&quot;Percentage of drivers involved in fatal collosion who were alchohol-impaired&quot;</span>, <span class="st">&quot;Percentage of drivers involved in fatal collosion who were not-distracted&quot;</span>,  <span class="st">&quot;Percentage of drivers involved in fatal collosion who had not been involved in any previous accident&quot;</span>))</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>hw5<span class="fl">.2</span> <span class="ot">&lt;-</span> hw5<span class="fl">.1</span> <span class="sc">%&gt;%</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Number.collisiion.Each.Category =</span> <span class="st">`</span><span class="at">Number of drivers involved in fatal collisiion per billion miles</span><span class="st">`</span> <span class="sc">*</span> Percentage <span class="sc">*</span> <span class="fl">0.01</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>hw5<span class="fl">.3</span> <span class="ot">&lt;-</span> hw5<span class="fl">.2</span> <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">&quot;Category.Number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Number.Collisiion&quot;</span>, <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;Number of drivers involved in fatal collisiion per billion miles&quot;</span>, <span class="st">&quot;Number.collisiion.Each.Category&quot;</span>))</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># subset different percentage category for different cause of fatal accident</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># use speeding to recreate the third graph</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>hw5.<span class="fl">3.</span>speed <span class="ot">&lt;-</span> hw5<span class="fl">.3</span> <span class="sc">%&gt;%</span> <span class="fu">subset</span>(Categories <span class="sc">==</span> <span class="st">&quot;Percentage of drivers involved in fatal collosion who were speeding&quot;</span>)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hw5.<span class="fl">3.</span>speed, <span class="fu">aes</span>( <span class="at">x=</span>State, <span class="at">y=</span> Number.Collisiion,<span class="at">alpha=</span>Category.Number))<span class="sc">+</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Driver Who involved in fatal collisions while speeding&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span> <span class="st">&#39;identity&#39;</span>,<span class="at">position =</span> <span class="st">&quot;stack&quot;</span>, <span class="at">fill=</span><span class="st">&quot;maroon&quot;</span> ) <span class="sc">+</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>), <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">hw5<span class="fl">.1</span> &lt;-<span class="st"> </span>hw5 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">names_to =</span> <span class="st">&quot;Categories&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;Percentage&quot;</span>, <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;Percentage of drivers involved in fatal collosion who were speeding&quot;</span>, <span class="st">&quot;Percentage of drivers involved in fatal collosion who were alchohol-impaired&quot;</span>, <span class="st">&quot;Percentage of drivers involved in fatal collosion who were not-distracted&quot;</span>,  <span class="st">&quot;Percentage of drivers involved in fatal collosion who had not been involved in any previous accident&quot;</span>))</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">hw5<span class="fl">.2</span> &lt;-<span class="st"> </span>hw5<span class="fl">.1</span> <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Number.collisiion.Each.Category =</span> <span class="st">`</span><span class="dt">Number of drivers involved in fatal collisiion per billion miles</span><span class="st">`</span> <span class="op">*</span><span class="st"> </span>Percentage <span class="op">*</span><span class="st"> </span><span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">hw5<span class="fl">.3</span> &lt;-<span class="st"> </span>hw5<span class="fl">.2</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">names_to =</span> <span class="st">&quot;Category.Number&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;Number.Collisiion&quot;</span>, <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;Number of drivers involved in fatal collisiion per billion miles&quot;</span>, <span class="st">&quot;Number.collisiion.Each.Category&quot;</span>))</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co"># subset different percentage category for different cause of fatal accident</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co"># use speeding to recreate the third graph</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">hw5.<span class="fl">3.</span>speed &lt;-<span class="st"> </span>hw5<span class="fl">.3</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(Categories <span class="op">==</span><span class="st"> &quot;Percentage of drivers involved in fatal collosion who were speeding&quot;</span>)</a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="kw">ggplot</span>(hw5.<span class="fl">3.</span>speed, <span class="kw">aes</span>( <span class="dt">x=</span>State, <span class="dt">y=</span> Number.Collisiion,<span class="dt">alpha=</span>Category.Number))<span class="op">+</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Driver Who involved in fatal collisions while speeding&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span> <span class="st">&#39;identity&#39;</span>,<span class="dt">position =</span> <span class="st">&quot;stack&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;maroon&quot;</span> ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>), <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
 <pre><code>## Warning: Using alpha for a discrete variable is not advised.</code></pre>
 <p><img src="visualization_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="now-recreating-the-last-two-graphs" class="section level1">
 <h1>Now recreating the last two graphs:</h1>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hw5<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">&quot;hw5.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">hw5&lt;-<span class="kw">read_csv</span>(<span class="st">&quot;hw5.csv&quot;</span>)</a></code></pre></div>
 <pre><code>## Rows: 51 Columns: 8</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -460,21 +449,21 @@ $(document).ready(function () {
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hw5<span class="sc">$</span>Insurance<span class="ot">&lt;-</span><span class="fu">round</span>(hw5<span class="sc">$</span><span class="st">`</span><span class="at">Car insurance premium ($)</span><span class="st">`</span>,<span class="dv">0</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>hw5 <span class="ot">&lt;-</span> <span class="fu">select</span>(hw5, State, Insurance)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(hw5,<span class="fu">aes</span>(<span class="at">y=</span>State, <span class="at">x=</span> Insurance))<span class="sc">+</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Average Combined Insurance Premium&quot;</span>)<span class="sc">+</span> </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&#39;2011&#39;</span>)<span class="sc">+</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span> <span class="st">&#39;identity&#39;</span>, <span class="at">fill=</span><span class="st">&quot;purple&quot;</span>, <span class="at">width =</span> <span class="fl">0.8</span>)<span class="sc">+</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits=</span>rev)<span class="sc">+</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>Insurance), <span class="at">size=</span><span class="dv">3</span>,<span class="at">color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">hjust =</span> <span class="fl">1.5</span>, <span class="at">fontface =</span> <span class="st">&#39;bold&#39;</span>)<span class="sc">+</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_blank</span>(), <span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x=</span><span class="fu">element_blank</span>(), <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_blank</span>(), <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&#39;bold&#39;</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.36</span>), </span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="sc">-</span>.<span class="dv">18</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">hw5<span class="op">$</span>Insurance&lt;-<span class="kw">round</span>(hw5<span class="op">$</span><span class="st">`</span><span class="dt">Car insurance premium ($)</span><span class="st">`</span>,<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">hw5 &lt;-<span class="st"> </span><span class="kw">select</span>(hw5, State, Insurance)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"> <span class="kw">ggplot</span>(hw5,<span class="kw">aes</span>(<span class="dt">y=</span>State, <span class="dt">x=</span> Insurance))<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Average Combined Insurance Premium&quot;</span>)<span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&#39;2011&#39;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">fill=</span><span class="st">&quot;purple&quot;</span>, <span class="dt">width =</span> <span class="fl">0.8</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">limits=</span>rev)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>Insurance), <span class="dt">size=</span><span class="dv">3</span>,<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">hjust =</span> <span class="fl">1.5</span>, <span class="dt">fontface =</span> <span class="st">&#39;bold&#39;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title.x=</span><span class="kw">element_blank</span>(), <span class="dt">axis.title.y=</span><span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">        <span class="dt">axis.ticks.x=</span><span class="kw">element_blank</span>(), <span class="dt">axis.ticks.y=</span><span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb14-12" data-line-number="12">        <span class="dt">axis.text.x=</span><span class="kw">element_blank</span>(), <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&#39;bold&#39;</span>, <span class="dt">hjust =</span> <span class="fl">-0.36</span>), </a>
+<a class="sourceLine" id="cb14-13" data-line-number="13">        <span class="dt">plot.subtitle =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">-.18</span>))</a></code></pre></div>
 <p><img src="visualization_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>hw5<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">&quot;hw5.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">hw5&lt;-<span class="kw">read_csv</span>(<span class="st">&quot;hw5.csv&quot;</span>)</a></code></pre></div>
 <pre><code>## Rows: 51 Columns: 8</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -483,18 +472,18 @@ $(document).ready(function () {
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>hw5<span class="sc">$</span>Loss<span class="ot">&lt;-</span>hw5<span class="sc">$</span><span class="st">`</span><span class="at">Losses incurred by insurance companies for collisions per insured driver ($)</span><span class="st">`</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>hw5 <span class="ot">&lt;-</span> <span class="fu">select</span>(hw5, State, Loss)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hw5,<span class="fu">aes</span>(<span class="at">y=</span>State, <span class="at">x=</span> Loss))<span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Losses Incurred by Insurance Companies&quot;</span>)<span class="sc">+</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&#39;Collisions per insured drivers, 2010&#39;</span>)<span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span> <span class="st">&#39;identity&#39;</span>, <span class="at">fill=</span><span class="st">&quot;pink&quot;</span>, <span class="at">width =</span> <span class="fl">0.8</span>)<span class="sc">+</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits=</span>rev)<span class="sc">+</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>Loss), <span class="at">size=</span><span class="dv">3</span>,<span class="at">color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">hjust =</span> <span class="fl">1.5</span>, <span class="at">fontface =</span> <span class="st">&#39;bold&#39;</span>)<span class="sc">+</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_blank</span>(), <span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x=</span><span class="fu">element_blank</span>(), <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_blank</span>(), <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&#39;bold&#39;</span>, <span class="at">hjust =</span> <span class="fl">1.2</span>), </span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="sc">-</span><span class="fl">4.6</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">hw5<span class="op">$</span>Loss&lt;-hw5<span class="op">$</span><span class="st">`</span><span class="dt">Losses incurred by insurance companies for collisions per insured driver ($)</span><span class="st">`</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">hw5 &lt;-<span class="st"> </span><span class="kw">select</span>(hw5, State, Loss)</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="kw">ggplot</span>(hw5,<span class="kw">aes</span>(<span class="dt">y=</span>State, <span class="dt">x=</span> Loss))<span class="op">+</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;Losses Incurred by Insurance Companies&quot;</span>)<span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&#39;Collisions per insured drivers, 2010&#39;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">fill=</span><span class="st">&quot;pink&quot;</span>, <span class="dt">width =</span> <span class="fl">0.8</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">limits=</span>rev)<span class="op">+</span></a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>Loss), <span class="dt">size=</span><span class="dv">3</span>,<span class="dt">color =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">hjust =</span> <span class="fl">1.5</span>, <span class="dt">fontface =</span> <span class="st">&#39;bold&#39;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title.x=</span><span class="kw">element_blank</span>(), <span class="dt">axis.title.y=</span><span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb19-10" data-line-number="10">        <span class="dt">axis.ticks.x=</span><span class="kw">element_blank</span>(), <span class="dt">axis.ticks.y=</span><span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb19-11" data-line-number="11">        <span class="dt">axis.text.x=</span><span class="kw">element_blank</span>(), <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&#39;bold&#39;</span>, <span class="dt">hjust =</span> <span class="fl">1.2</span>), </a>
+<a class="sourceLine" id="cb19-12" data-line-number="12">        <span class="dt">plot.subtitle =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">-4.6</span>))</a></code></pre></div>
 <p><img src="visualization_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 
