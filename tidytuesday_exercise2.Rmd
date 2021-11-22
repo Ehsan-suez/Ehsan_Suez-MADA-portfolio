@@ -7,4 +7,221 @@ output:
     toc: no
 ---
 
-Will be filled next week
+#Packages Load
+```{r}
+library(readr)
+library(here)
+library(tidyverse)
+library(skimr)
+library(rsample)
+library(recipes)
+library(rpart)
+library(parsnip)
+library(doParallel) # for parallel computing 
+library(workflows)
+library(dials)
+library(dplyr)
+library(tune)
+library(rpart.plot)
+library(broom.mixed)
+library(ggplot2)
+
+```
+
+
+
+
+#Data Import
+```{r}
+marbles <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-02/marbles.csv')
+```
+
+#Exploration
+```{r}
+glimpse(marbles)
+```
+
+```{r}
+skim(marbles)
+```
+
+```{r}
+select_data = marbles %>% select(c(race, site,marble_name,team_name,time_s,track_length_m,number_laps,avg_time_lap))
+marbles_updated = select_data %>% drop_na()
+marbles_updated$track_length_m = as.factor(marbles_updated$track_length_m)
+marbles_updated$number_laps = as.factor(marbles_updated$number_laps)
+marbles_updated$avg_time_lap = as.factor(marbles_updated$avg_time_lap)
+```
+
+```{r}
+glimpse(marbles_updated)
+```
+
+```{r}
+#calculating average time by race and saving as a new df
+avg_race_times <- marbles_updated %>% group_by(race) %>%
+  summarize(mean_race_time = mean(time_s, na.rm=TRUE))
+```
+
+```{r}
+#Merge this to dataset
+marbles_cleaned <- left_join(marbles_updated, avg_race_times, by = "race")
+```
+
+```{r}
+#Divide each marble's race time by average time/race
+marbles_cleaned <- marbles_cleaned %>% mutate(standardized_time = time_s/mean_race_time)
+```
+
+```{r}
+#Get median standaridized time per marble across races to order boxplots
+new_data <- marbles_cleaned %>% 
+  group_by(marble_name) %>%
+  summarize(median_standardized_time = median(standardized_time, na.rm=TRUE))
+```
+
+```{r}
+#Merge back
+marbles_new <- left_join(marbles_cleaned, new_data)
+```
+
+```{r}
+glimpse(marbles_new)
+```
+
+```{r}
+# boxplots of standardized times by marble
+ggplot(marbles_new, aes(x=reorder(marble_name, median_standardized_time ), y=standardized_time)) + geom_boxplot() + labs(title= "Boxplots of Standardized Race Times by Marble Name") + xlab("Marble Name") + ylab("Standardized Race Time") +
+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+``` 
+
+#ML workflow
+```{r}
+set.seed(123)
+```
+
+```{r}
+# Put 3/4 of the data into the training set
+data_split <- initial_split(marbles_new, prop = 3/4)
+```
+
+```{r}
+# Create data frames for the two sets:
+train_data <- training(data_split)
+test_data  <- testing(data_split)
+```
+
+```{r}
+#CV
+folds <- vfold_cv(train_data, v = 5, repeats = 5, strata = site)
+folds
+```
+
+```{r}
+#Make recipe
+data_rec <- recipe(time_s ~ ., data = train_data) %>% step_dummy(all_nominal())
+```
+
+
+#Model 1: Decision Tree Model
+#run parallels to determine number of cores
+```{r}
+cores <- parallel::detectCores() - 1
+cores
+```
+```{r}
+cl <- makeCluster(cores)
+
+registerDoParallel(cl)
+
+
+#define the tree model
+tune_spec <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()
+  ) %>% 
+  set_engine("rpart") %>% 
+  set_mode("regression")
+
+tune_spec
+```
+
+```{r}
+#define workflow for tree
+tree_wflow <- workflow() %>%
+               add_model(tune_spec) %>%
+               add_recipe(data_rec)
+```
+
+
+```{r}
+#tuning grid specification
+tree_grid <- grid_regular(cost_complexity(),
+                          tree_depth(),
+                          levels = 5)
+
+tree_grid
+```
+
+```{r}
+#tree depth
+tree_grid %>%
+  count(tree_depth)
+```
+
+```{r}
+tree_res <- tree_wflow %>%
+  tune_grid(
+    resamples = folds,
+    grid = tree_grid
+  ) 
+```
+
+```{r}
+#default visualization
+tree_res %>% autoplot()
+```
+
+```{r}
+#Get the tuned model that performs best 
+best_tree <- tree_res %>%  
+  select_best(metric = "rmse")
+
+#Finalize workflow with best model
+best_tree_wf <- tree_wflow %>% 
+  finalize_workflow(best_tree)
+```
+
+```{r}
+#Fit final model to training data and evaluates finalized model on the testing data
+best_tree_fit <- best_tree_wf %>%
+  last_fit(data_split)
+
+#On training data
+best_fit <- best_tree_wf %>% 
+  fit(data = train_data)
+
+best_pred <- predict(best_fit, train_data)
+
+best_tree_fit %>%
+  collect_metrics() 
+```
+
+```{r}
+#Plot final tree
+rpart.plot(extract_fit_parsnip(best_tree_fit)$fit)
+```
+```{r}
+#Predicted versus observed
+plot(best_pred$.pred,train_data$standardized_time)
+abline(a=0,b=1, col = 'blue')
+```
+
+```{r}
+#Residuals
+plot(best_pred$.pred,train_data$standardized_time)
+abline(a=0,b=0, col = 'green')
+```
+
+#I 'll do the same with LASSO and Random Forest Model and compare
