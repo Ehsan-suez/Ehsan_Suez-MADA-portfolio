@@ -13,7 +13,6 @@
 
 <title>Tidy Tuesday exercise 2</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -52,28 +51,26 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -83,7 +80,7 @@ pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   { color: #cccccc; background-color: #303030; }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ffcfaf; } /* Alert */
 code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
@@ -392,66 +389,24 @@ $(document).ready(function () {
 
 
 <p>#Packages Load</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div>
-<pre><code>## here() starts at /Users/ehsansuez/Study /MADA_2021/Ehsan_Suez-MADA-portfolio</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ dplyr   1.0.7
-## ✓ tibble  3.1.4     ✓ stringr 1.4.0
-## ✓ tidyr   1.1.3     ✓ forcats 0.5.1
-## ✓ purrr   0.3.4</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recipes)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;recipes&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stringr&#39;:
-## 
-##     fixed</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     step</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parsnip)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel) <span class="co"># for parallel computing </span></span></code></pre></div>
-<pre><code>## Loading required package: foreach</code></pre>
-<pre><code>## 
-## Attaching package: &#39;foreach&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
-## 
-##     accumulate, when</code></pre>
-<pre><code>## Loading required package: iterators</code></pre>
-<pre><code>## Loading required package: parallel</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(workflows)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dials)</span></code></pre></div>
-<pre><code>## Loading required package: scales</code></pre>
-<pre><code>## 
-## Attaching package: &#39;scales&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     discard</code></pre>
-<pre><code>## The following object is masked from &#39;package:readr&#39;:
-## 
-##     col_factor</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dials&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:rpart&#39;:
-## 
-##     prune</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tune)</span></code></pre></div>
-<pre><code>## Registered S3 method overwritten by &#39;tune&#39;:
-##   method                   from   
-##   required_pkgs.model_spec parsnip</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(readr)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(here)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(skimr)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(rsample)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(recipes)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">library</span>(rpart)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(parsnip)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">library</span>(doParallel) <span class="co"># for parallel computing </span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">library</span>(workflows)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">library</span>(dials)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">library</span>(tune)</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="kw">library</span>(rpart.plot)</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw">library</span>(broom.mixed)</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
 <p>#Data Import</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>marbles <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-02/marbles.csv&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">marbles &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-02/marbles.csv&#39;</span>)</a></code></pre></div>
 <pre><code>## Rows: 256 Columns: 14</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -461,7 +416,7 @@ $(document).ready(function () {
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>#Exploration</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(marbles)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">glimpse</span>(marbles)</a></code></pre></div>
 <pre><code>## Rows: 256
 ## Columns: 14
 ## $ date           &lt;chr&gt; &quot;15-Feb-20&quot;, &quot;15-Feb-20&quot;, &quot;15-Feb-20&quot;, &quot;15-Feb-20&quot;, &quot;15…
@@ -478,7 +433,7 @@ $(document).ready(function () {
 ## $ avg_time_lap   &lt;dbl&gt; 28.11, 28.37, 28.40, 28.70, 28.71, 28.72, 28.96, 29.11,…
 ## $ host           &lt;chr&gt; &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;…
 ## $ notes          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(marbles)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">skim</span>(marbles)</a></code></pre></div>
 <table>
 <caption>Data summary</caption>
 <tbody>
@@ -712,12 +667,12 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>select_data <span class="ot">=</span> marbles <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(race, site,marble_name,team_name,time_s,track_length_m,number_laps,avg_time_lap))</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>marbles_updated <span class="ot">=</span> select_data <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>()</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>marbles_updated<span class="sc">$</span>track_length_m <span class="ot">=</span> <span class="fu">as.factor</span>(marbles_updated<span class="sc">$</span>track_length_m)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>marbles_updated<span class="sc">$</span>number_laps <span class="ot">=</span> <span class="fu">as.factor</span>(marbles_updated<span class="sc">$</span>number_laps)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>marbles_updated<span class="sc">$</span>avg_time_lap <span class="ot">=</span> <span class="fu">as.factor</span>(marbles_updated<span class="sc">$</span>avg_time_lap)</span></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(marbles_updated)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">select_data =<span class="st"> </span>marbles <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(race, site,marble_name,team_name,time_s,track_length_m,number_laps,avg_time_lap))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">marbles_updated =<span class="st"> </span>select_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>()</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">marbles_updated<span class="op">$</span>track_length_m =<span class="st"> </span><span class="kw">as.factor</span>(marbles_updated<span class="op">$</span>track_length_m)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">marbles_updated<span class="op">$</span>number_laps =<span class="st"> </span><span class="kw">as.factor</span>(marbles_updated<span class="op">$</span>number_laps)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">marbles_updated<span class="op">$</span>avg_time_lap =<span class="st"> </span><span class="kw">as.factor</span>(marbles_updated<span class="op">$</span>avg_time_lap)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">glimpse</span>(marbles_updated)</a></code></pre></div>
 <pre><code>## Rows: 253
 ## Columns: 8
 ## $ race           &lt;chr&gt; &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1&quot;,…
@@ -728,21 +683,21 @@ $(document).ready(function () {
 ## $ track_length_m &lt;fct&gt; 12.81, 12.81, 12.81, 12.81, 12.81, 12.81, 12.81, 12.81,…
 ## $ number_laps    &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10,…
 ## $ avg_time_lap   &lt;fct&gt; 28.11, 28.37, 28.4, 28.7, 28.71, 28.72, 28.96, 29.11, 2…</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating average time by race and saving as a new df</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>avg_race_times <span class="ot">&lt;-</span> marbles_updated <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(race) <span class="sc">%&gt;%</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_race_time =</span> <span class="fu">mean</span>(time_s, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Merge this to dataset</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>marbles_cleaned <span class="ot">&lt;-</span> <span class="fu">left_join</span>(marbles_updated, avg_race_times, <span class="at">by =</span> <span class="st">&quot;race&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Divide each marble&#39;s race time by average time/race</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>marbles_cleaned <span class="ot">&lt;-</span> marbles_cleaned <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">standardized_time =</span> time_s<span class="sc">/</span>mean_race_time)</span></code></pre></div>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get median standaridized time per marble across races to order boxplots</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> marbles_cleaned <span class="sc">%&gt;%</span> </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(marble_name) <span class="sc">%&gt;%</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">median_standardized_time =</span> <span class="fu">median</span>(standardized_time, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Merge back</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>marbles_new <span class="ot">&lt;-</span> <span class="fu">left_join</span>(marbles_cleaned, new_data)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">#calculating average time by race and saving as a new df</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">avg_race_times &lt;-<span class="st"> </span>marbles_updated <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(race) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_race_time =</span> <span class="kw">mean</span>(time_s, <span class="dt">na.rm=</span><span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">#Merge this to dataset</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">marbles_cleaned &lt;-<span class="st"> </span><span class="kw">left_join</span>(marbles_updated, avg_race_times, <span class="dt">by =</span> <span class="st">&quot;race&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co">#Divide each marble&#39;s race time by average time/race</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">marbles_cleaned &lt;-<span class="st"> </span>marbles_cleaned <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">standardized_time =</span> time_s<span class="op">/</span>mean_race_time)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">#Get median standaridized time per marble across races to order boxplots</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">new_data &lt;-<span class="st"> </span>marbles_cleaned <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(marble_name) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">median_standardized_time =</span> <span class="kw">median</span>(standardized_time, <span class="dt">na.rm=</span><span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co">#Merge back</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">marbles_new &lt;-<span class="st"> </span><span class="kw">left_join</span>(marbles_cleaned, new_data)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;marble_name&quot;</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(marbles_new)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">glimpse</span>(marbles_new)</a></code></pre></div>
 <pre><code>## Rows: 253
 ## Columns: 11
 ## $ race                     &lt;chr&gt; &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1&quot;, &quot;S1Q1…
@@ -756,20 +711,20 @@ $(document).ready(function () {
 ## $ mean_race_time           &lt;dbl&gt; 29.4400, 29.4400, 29.4400, 29.4400, 29.4400, …
 ## $ standardized_time        &lt;dbl&gt; 0.9548234, 0.9636549, 0.9646739, 0.9748641, 0…
 ## $ median_standardized_time &lt;dbl&gt; 1.0040201, 0.9980154, 0.9962279, 0.9998530, 0…</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># boxplots of standardized times by marble</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(marbles_new, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(marble_name, median_standardized_time ), <span class="at">y=</span>standardized_time)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Boxplots of Standardized Race Times by Marble Name&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Marble Name&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Standardized Race Time&quot;</span>) <span class="sc">+</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># boxplots of standardized times by marble</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw">ggplot</span>(marbles_new, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(marble_name, median_standardized_time ), <span class="dt">y=</span>standardized_time)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title=</span> <span class="st">&quot;Boxplots of Standardized Race Times by Marble Name&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Marble Name&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Standardized Race Time&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</a></code></pre></div>
 <p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>#ML workflow</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Put 3/4 of the data into the training set</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>data_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(marbles_new, <span class="at">prop =</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data frames for the two sets:</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(data_split)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> <span class="fu">testing</span>(data_split)</span></code></pre></div>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">#CV</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(train_data, <span class="at">v =</span> <span class="dv">5</span>, <span class="at">repeats =</span> <span class="dv">5</span>, <span class="at">strata =</span> site)</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>folds</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Put 3/4 of the data into the training set</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">data_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(marbles_new, <span class="dt">prop =</span> <span class="dv">3</span><span class="op">/</span><span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># Create data frames for the two sets:</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">train_data &lt;-<span class="st"> </span><span class="kw">training</span>(data_split)</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">test_data  &lt;-<span class="st"> </span><span class="kw">testing</span>(data_split)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co">#CV</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">folds &lt;-<span class="st"> </span><span class="kw">vfold_cv</span>(train_data, <span class="dt">v =</span> <span class="dv">5</span>, <span class="dt">repeats =</span> <span class="dv">5</span>, <span class="dt">strata =</span> site)</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">folds</a></code></pre></div>
 <pre><code>## #  5-fold cross-validation repeated 5 times using stratification 
 ## # A tibble: 25 × 3
 ##    splits           id      id2  
@@ -785,27 +740,27 @@ $(document).ready(function () {
 ##  9 &lt;split [155/34]&gt; Repeat2 Fold4
 ## 10 &lt;split [155/34]&gt; Repeat2 Fold5
 ## # … with 15 more rows</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Make recipe</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>data_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(time_s <span class="sc">~</span> ., <span class="at">data =</span> train_data) <span class="sc">%&gt;%</span> <span class="fu">step_dummy</span>(<span class="fu">all_nominal</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co">#Make recipe</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">data_rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(time_s <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train_data) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">step_dummy</span>(<span class="kw">all_nominal</span>())</a></code></pre></div>
 <p>#Model 1: Decision Tree Model #run parallels to determine number of cores</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>cores</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">cores &lt;-<span class="st"> </span>parallel<span class="op">::</span><span class="kw">detectCores</span>() <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">cores</a></code></pre></div>
 <pre><code>## [1] 7</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(cores)</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(cl)</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="co">#define the tree model</span></span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>tune_spec <span class="ot">&lt;-</span> </span>
-<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">decision_tree</span>(</span>
-<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">cost_complexity =</span> <span class="fu">tune</span>(),</span>
-<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">tree_depth =</span> <span class="fu">tune</span>()</span>
-<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;rpart&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">&quot;regression&quot;</span>)</span>
-<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>tune_spec</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">cl &lt;-<span class="st"> </span><span class="kw">makeCluster</span>(cores)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="kw">registerDoParallel</span>(cl)</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co">#define the tree model</span></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7">tune_spec &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="st">  </span><span class="kw">decision_tree</span>(</a>
+<a class="sourceLine" id="cb29-9" data-line-number="9">    <span class="dt">cost_complexity =</span> <span class="kw">tune</span>(),</a>
+<a class="sourceLine" id="cb29-10" data-line-number="10">    <span class="dt">tree_depth =</span> <span class="kw">tune</span>()</a>
+<a class="sourceLine" id="cb29-11" data-line-number="11">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb29-12" data-line-number="12"><span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;rpart&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb29-13" data-line-number="13"><span class="st">  </span><span class="kw">set_mode</span>(<span class="st">&quot;regression&quot;</span>)</a>
+<a class="sourceLine" id="cb29-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb29-15" data-line-number="15">tune_spec</a></code></pre></div>
 <pre><code>## Decision Tree Model Specification (regression)
 ## 
 ## Main Arguments:
@@ -813,16 +768,16 @@ $(document).ready(function () {
 ##   tree_depth = tune()
 ## 
 ## Computational engine: rpart</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#define workflow for tree</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>tree_wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">add_model</span>(tune_spec) <span class="sc">%&gt;%</span></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">add_recipe</span>(data_rec)</span></code></pre></div>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tuning grid specification</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>tree_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">cost_complexity</span>(),</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">tree_depth</span>(),</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">levels =</span> <span class="dv">5</span>)</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>tree_grid</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co">#define workflow for tree</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">tree_wflow &lt;-<span class="st"> </span><span class="kw">workflow</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="st">               </span><span class="kw">add_model</span>(tune_spec) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="st">               </span><span class="kw">add_recipe</span>(data_rec)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co">#tuning grid specification</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">tree_grid &lt;-<span class="st"> </span><span class="kw">grid_regular</span>(<span class="kw">cost_complexity</span>(),</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">                          <span class="kw">tree_depth</span>(),</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4">                          <span class="dt">levels =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb32-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">tree_grid</a></code></pre></div>
 <pre><code>## # A tibble: 25 × 2
 ##    cost_complexity tree_depth
 ##              &lt;dbl&gt;      &lt;int&gt;
@@ -837,9 +792,9 @@ $(document).ready(function () {
 ##  9    0.000562              4
 ## 10    0.1                   4
 ## # … with 15 more rows</code></pre>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tree depth</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>tree_grid <span class="sc">%&gt;%</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tree_depth)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">#tree depth</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">tree_grid <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(tree_depth)</a></code></pre></div>
 <pre><code>## # A tibble: 5 × 2
 ##   tree_depth     n
 ##        &lt;int&gt; &lt;int&gt;
@@ -848,52 +803,52 @@ $(document).ready(function () {
 ## 3          8     5
 ## 4         11     5
 ## 5         15     5</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>tree_res <span class="ot">&lt;-</span> tree_wflow <span class="sc">%&gt;%</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds,</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> tree_grid</span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co">#default visualization</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>tree_res <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">tree_res &lt;-<span class="st"> </span>tree_wflow <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="st">  </span><span class="kw">tune_grid</span>(</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">    <span class="dt">resamples =</span> folds,</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">    <span class="dt">grid =</span> tree_grid</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">  ) </a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="co">#default visualization</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">tree_res <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a></code></pre></div>
 <p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get the tuned model that performs best </span></span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>best_tree <span class="ot">&lt;-</span> tree_res <span class="sc">%&gt;%</span>  </span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Finalize workflow with best model</span></span>
-<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>best_tree_wf <span class="ot">&lt;-</span> tree_wflow <span class="sc">%&gt;%</span> </span>
-<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(best_tree)</span></code></pre></div>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fit final model to training data and evaluates finalized model on the testing data</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>best_tree_fit <span class="ot">&lt;-</span> best_tree_wf <span class="sc">%&gt;%</span></span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(data_split)</span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="co">#On training data</span></span>
-<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>best_fit <span class="ot">&lt;-</span> best_tree_wf <span class="sc">%&gt;%</span> </span>
-<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> train_data)</span>
-<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>best_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(best_fit, train_data)</span>
-<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>best_tree_fit <span class="sc">%&gt;%</span></span>
-<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>() </span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co">#Get the tuned model that performs best </span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">best_tree &lt;-<span class="st"> </span>tree_res <span class="op">%&gt;%</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="st">  </span><span class="kw">select_best</span>(<span class="dt">metric =</span> <span class="st">&quot;rmse&quot;</span>)</a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="co">#Finalize workflow with best model</span></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6">best_tree_wf &lt;-<span class="st"> </span>tree_wflow <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="st">  </span><span class="kw">finalize_workflow</span>(best_tree)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co">#Fit final model to training data and evaluates finalized model on the testing data</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">best_tree_fit &lt;-<span class="st"> </span>best_tree_wf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="st">  </span><span class="kw">last_fit</span>(data_split)</a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="co">#On training data</span></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">best_fit &lt;-<span class="st"> </span>best_tree_wf <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="st">  </span><span class="kw">fit</span>(<span class="dt">data =</span> train_data)</a>
+<a class="sourceLine" id="cb39-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb39-9" data-line-number="9">best_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(best_fit, train_data)</a>
+<a class="sourceLine" id="cb39-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb39-11" data-line-number="11">best_tree_fit <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-12" data-line-number="12"><span class="st">  </span><span class="kw">collect_metrics</span>() </a></code></pre></div>
 <pre><code>## # A tibble: 2 × 4
 ##   .metric .estimator .estimate .config             
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
 ## 1 rmse    standard        2.56 Preprocessor1_Model1
 ## 2 rsq     standard        1.00 Preprocessor1_Model1</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot final tree</span></span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(<span class="fu">extract_fit_parsnip</span>(best_tree_fit)<span class="sc">$</span>fit)</span></code></pre></div>
-<pre><code>## Warning: Cannot retrieve the data used to build the model (so cannot determine roundint and is.binary for the variables).
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co">#Plot final tree</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw">rpart.plot</span>(<span class="kw">extract_fit_parsnip</span>(best_tree_fit)<span class="op">$</span>fit)</a></code></pre></div>
+<pre><code>## Warning: Cannot retrieve the data used to build the model (model.frame: object &#39;..y&#39; not found).
 ## To silence this warning:
 ##     Call rpart.plot with roundint=FALSE,
 ##     or rebuild the rpart model with model=TRUE.</code></pre>
 <p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Predicted versus observed</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(best_pred<span class="sc">$</span>.pred,train_data<span class="sc">$</span>standardized_time)</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="co">#Predicted versus observed</span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw">plot</span>(best_pred<span class="op">$</span>.pred,train_data<span class="op">$</span>standardized_time)</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>,<span class="dt">b=</span><span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>)</a></code></pre></div>
 <p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Residuals</span></span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(best_pred<span class="sc">$</span>.pred,train_data<span class="sc">$</span>standardized_time)</span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">0</span>, <span class="at">col =</span> <span class="st">&#39;green&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co">#Residuals</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="kw">plot</span>(best_pred<span class="op">$</span>.pred,train_data<span class="op">$</span>standardized_time)</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>,<span class="dt">b=</span><span class="dv">0</span>, <span class="dt">col =</span> <span class="st">&#39;green&#39;</span>)</a></code></pre></div>
 <p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <p>#I ’ll do the same with LASSO and Random Forest Model and compare</p>
 
